@@ -22,4 +22,7 @@ Gem::Specification.new do |spec|
   spec.files += %w[sidekiq-global_id.gemspec]
   spec.files += Dir["lib/**/*.rb"]
   spec.require_paths = ["lib"]
+
+  spec.add_dependency "globalid"
+  spec.add_dependency "sidekiq"
 end

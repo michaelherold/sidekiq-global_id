@@ -20,7 +20,31 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Sidekiq has [a middleware system](https://github.com/mperham/sidekiq/wiki/Middleware) that allows you to tap into the behavior of both sending jobs to the background queue and pulling them off of the queue. In Sidekiq terminology, these are the _client_ and the _server_.
+
+sidekiq-global_id uses both a client middleware and a server middleware. The client middleware takes arguments from `.perform_async` and serializes any GlobalID-compatible object as a GlobalID before pushing the job into Redis. The server middleware does the reverse: it deserializes any GlobalID that it sees into the object represented by that GlobalID.
+
+Sidekiq has two middleware chains, one for the client and one for the server. In order to use sidekiq-global_id, you must add both the client and server middleware to their appropriate chain. That looks like the following:
+
+``` ruby
+# in config/initializers/sidekiq.rb or another configuration file
+
+require "sidekiq/global_id"
+
+Sidekiq.client_middleware do |chain|
+  chain.add Sidekiq::GlobalID::ClientMiddleware
+end
+
+Sidekiq.server_middleware do |chain|
+  chain.add Sidekiq::GlobalID::ServerMiddleware
+end
+```
+
+Sidekiq middleware chains, like Rack middleware stacks, are order-dependent. If you use other middleware and cannot afford to have the job arguments [de]serialized differently for some reason (e.g. instrumentation or logging), you'll need to keep the order of your middleware in mind.
+
+To make the [de]serialization the first thing that happens after you call `.perform_async` or Sidekiq pulls a job off the queue, you can use `Sidekiq::Middleware::Chain#prepend` to push the middleware to the top of the chain.
+
+The chains also have `#insert_before` and `#insert_after` so think about when the client or server should [de]serialize the arguments.
 
 ## Contributing
 
