@@ -54,7 +54,6 @@ So you’re interested in contributing to sidekiq-global_id? Check out our [cont
 
 This library aims to support and is [tested against][actions] the following Ruby versions:
 
-* Ruby 2.5
 * Ruby 2.6
 * Ruby 2.7
 * Ruby 3.0
