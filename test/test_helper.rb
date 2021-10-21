@@ -19,4 +19,8 @@ end
 
 require "sidekiq/global_id"
 
+require_relative "support/assertions"
+require_relative "support/fakes"
+require_relative "support/sidekiq"
+
 require "minitest/autorun"

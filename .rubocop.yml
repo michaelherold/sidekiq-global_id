@@ -79,6 +79,9 @@ Lint/UnmodifiedReduceAccumulator:
 Security/IoMethods:
   Enabled: true
 
+Style/AccessorGrouping:
+  EnforcedStyle: separated
+
 Style/ArgumentsForwarding:
   Enabled: true
 
