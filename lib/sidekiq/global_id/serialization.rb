@@ -12,13 +12,15 @@ module Sidekiq
     #
     # @api private
     module Serialization
-      refine Enumerable do
-        def deserialize
-          map!(&:deserialize)
-        end
+      [Array, Enumerable].each do |refineable|
+        refine refineable do
+          def deserialize
+            map!(&:deserialize)
+          end
 
-        def serialize
-          map(&:serialize)
+          def serialize
+            map(&:serialize)
+          end
         end
       end
 
