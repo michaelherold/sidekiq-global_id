@@ -12,7 +12,11 @@ module Sidekiq
     #
     # @api private
     module Serialization
-      [Array, Enumerable].each do |refineable|
+      ENUMERABLES = [Array, Enumerable].tap do |enumerables|
+        enumerables << ActiveRecord::Relation if defined?(ActiveRecord::Relation)
+      end
+
+      ENUMERABLES.each do |refineable|
         refine refineable do
           def deserialize
             map!(&:deserialize)
