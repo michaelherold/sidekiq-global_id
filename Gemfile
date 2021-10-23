@@ -9,10 +9,14 @@ group :development do
   gem "yardstick", "~> 0.9"
 
   group :test do
+    gem "activerecord", require: false
+    gem "activerecord-jdbcsqlite3-adapter", platforms: %i[jruby], require: false
     gem "minitest", "~> 5.0"
     gem "pry"
+    gem "railties", require: false
     gem "rake", "~> 13.0"
     gem "simplecov", "~> 0.21"
+    gem "sqlite3", platforms: %i[mri mingw x64_mingw], require: false
 
     group :linting do
       gem "yard-doctest", "~> 0.1"

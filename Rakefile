@@ -16,7 +16,16 @@ default = %w[test]
 Rake::TestTask.new(:test) do |t|
   t.libs << "test"
   t.libs << "lib"
-  t.test_files = FileList["test/**/*_test.rb"]
+  t.test_files = FileList["test/sidekiq/global_id/**/*_test.rb"]
+end
+
+namespace :test do
+  task :integration do
+    FileList["test/integration/**/*_test.rb"].each do |file|
+      suite = File.basename(file).sub("_test.rb", "")
+      sh "SUITE=#{suite} ruby #{file}"
+    end
+  end
 end
 
 with_optional_dependency do

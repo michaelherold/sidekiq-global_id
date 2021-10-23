@@ -7,7 +7,7 @@ if ENV["COVERAGE"] || ENV["CI"]
     add_filter "/test/"
   end
 
-  SimpleCov.command_name "minitest"
+  SimpleCov.command_name ENV.fetch("SUITE", "minitest")
 end
 
 $LOAD_PATH.unshift File.expand_path("../lib", __dir__)
