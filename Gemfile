@@ -23,6 +23,10 @@ group :development do
     end
   end
 
+  group :benchmarking do
+    gem "benchmark-ips"
+  end
+
   group :linting do
     gem "inch", "~> 0.8.0"
     gem "rubocop", "~> 1.7"
